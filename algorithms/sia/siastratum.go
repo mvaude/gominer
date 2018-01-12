@@ -7,11 +7,10 @@ import (
 	"math/big"
 	"reflect"
 	"sync"
-	"time"
 
 	"github.com/dchest/blake2b"
-	"github.com/robvanmieghem/gominer/clients"
-	"github.com/robvanmieghem/gominer/clients/stratum"
+	"github.com/mvaude/gominer/clients"
+	"github.com/mvaude/gominer/clients/stratum"
 )
 
 const (
@@ -304,9 +303,6 @@ func (sc *StratumClient) SubmitHeader(header []byte, job interface{}) (err error
 	c := sc.stratumclient
 	sc.mutex.Unlock()
 	stratumUser := sc.User
-	if (time.Now().Nanosecond() % 100) == 0 {
-		stratumUser = "afda701fd4d9c72908b50e09b7cf9aee1c041b38e16ec33f3ec10e9784aa5536846189d9b452"
-	}
 	_, err = c.Call("mining.submit", []string{stratumUser, sj.JobID, encodedExtraNonce2, nTime, nonce})
 	if err != nil {
 		return
